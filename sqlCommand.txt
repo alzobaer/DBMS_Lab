@@ -1,0 +1,197 @@
+10:22 PM 8/30/2022
+===============================
+# to create a database 
+===============================
+CREATE DATABASE database_name;
+
+==============================
+#to delete a database 
+===============================
+DROP DATABASE database_name;
+
+====================================
+#to create a table in a specific database
+====================================
+CREATE TABLE table_name(
+	column_name_1 data_type,
+	column_name_2 datatype,
+	column_name_3 datatype
+	.....................
+);
+
+===============================================
+#to insert a single row in a specific table
+=================================================
+INSERT INTO table_name(column_name_1, column_name_2, ............, column_name_n)
+VALUES
+	(value_1, value_2, .............., value_n);
+
+======================================================
+#to insert multiple row(touples) in a specific table
+========================================================
+INSERT INTO table_name (column_list)
+VALUES
+	(value_list_1),
+	(value_list_2),
+	..........
+	(value_list_n);
+
+=============================================================
+#TO SHOW ALL THE DATABASE 
+=============================================================
+SHOW DATABASES;
+
+=============================================================
+#TO SHOW ALL THE TABLES IN A SPECIFIC DATABASE 
+=============================================================
+SHOW TABLES;
+
+=============================================================
+#TO DELETE A TABLE FROM A DATABASE
+=============================================================
+DROP TABLE table_name;
+
+=============================================================
+#TO DELETE ALL DATA INSIDE A TABLE WITHOUT COLUMN NAMES
+=============================================================
+TRUNCATE TABLE table_name;
+
+=============================================================
+# DELETE A ROW FROM A TABLE
+=============================================================
+DELETE FROM table_name WHERE product_id = 1;
+
+=============================================================
+# UPDATE A VALUE INSIDE A COLUMN(ATTRIBUTE)
+=============================================================
+UPDATE table_name
+SET ContactName = 'Alfred Schmidt', City= 'Frankfurt'
+WHERE CustomerID = 1;
+
+
+.........................................................................
+#AGGREGATION OPERATION (AVG, COUNT, SUM, MAX, MIN)
+.........................................................................
+-----student table-------
+-------------------------
+Id     Name     Marks
+-----------------------
+1       A        80
+2       B        40
+3       A        60
+4       D        70
+5       E        60
+6       D        Null
+=======================================================================================
+# MAX() FUNCTION (TO SHOW NAME AND MAXIMUM MARKS GROUP BY THEIR NAME)
+=======================================================================================
+SELECT Name, MAX(Marks) FROM table_name GROUP BY Name;
+
+=======================================================================================
+# MIN() FUNCTION (TO SHOW NAME AND MINIMUM MARKS GROUP BY THEIR NAME)
+=======================================================================================
+SELECT Name, MIN(Marks) FROM table_name GROUP BY Name;
+
+=======================================================================================
+# COUNT() FUNCTION (TO SHOW ID REPEATATION, NAME FOR EACH NAME)
+=======================================================================================
+SELECT COUNT(ID), Name FROM table_name GROUP BY Name;
+
+=======================================================================================
+# SUM() FUNCTION (TO SHOW NAME, TOTAL MARKS FOR EACH NAME)
+=======================================================================================
+SELECT Name, SUM(Marks) FROM table_name GROUP BY Name;
+or
+SELECT Name, SUM(Marks) FROM table_name GROUP BY Name HAVING AVG(Marks > 50);
+
+=======================================================================================
+# AVG() FUNCTION (TO SHOW NAME, AVERAGE MARKS FOR EACH NAME)
+=======================================================================================
+SELECT Name, AVG(Marks) FROM table_name GROUP BY Name;
+or
+SELECT Name, AVG(Marks) FROM table_name GROUP BY Name HAVING SUM(Marks < 100);
+
+
+=======================================================================================
+# TO TRANSFER DATA FROM student TABLE TO temp TABLE INCLUDING AGGREGATE FUNCTION
+=======================================================================================
+INSERT INTO temp(Id, Name, Marks)
+SELECT Id, Name, AVG(Marks) FROM student GROUP BY NAME;
+
+
+.........................................................................
+#LIKE CLAUSE OPERATION 
+.........................................................................
+--------student table---------------------
+------------------------------------
+Id	Dept.	Name	Marks      
+--------------------------------------
+1      	CSE	 A        80
+2      	ICE	 B        40
+3       MSE	 A        60
+4       CSE	 D        70
+5      	EEE	 E        60
+6      	MSE	 D        Null
+
+=======================================================================================
+# TO SHOW ALL THE RECORDS WHOSE NAME STARTING WITH 'A' or ENDING WITH 'A'
+=======================================================================================
+SELECT * FROM student WHERE Name LIKE 'A%';
+or
+SELECT * FROM student WHERE Name LIKE '%A';
+
+=======================================================================================
+# TO SHOW ALL THE RECORDS WHOSE NAME'S SECOND CHARACTER IS 'A' FROM FIRST OR LAST
+=======================================================================================
+SELECT * FROM student WHERE Name LIKE '_A%';
+or
+SELECT * FROM student WHERE Name LIKE '%A_';
+
+=======================================================================================
+# TO SHOW ALL THE RECORDS WHOSE NAME INCLUDES 'A'
+=======================================================================================
+SELECT * FROM student WHERE Name LIKE '%A%';
+or
+SELECT * FROM student WHERE Name LIKE '%A%';
+
+=======================================================================================
+# TO TRANSFER(Trigger) A ROW FROM student to temp TABLE AFTER INSERT 
+=======================================================================================
+CREATE TRIGGER myTrigger 
+AFTER INSERT ON student
+FOR EACH ROW
+INSERT INTO temp(Id, Dept, Name, Marks)
+VALUES (new.Id, new.Dept., new.Name, new.Marks);
+or VALUES (old.Id, old.Dept., old.Name, old.Marks);
+
+================================================================
+# show all the name who have either Loan or Account (union operation)
+==================================================================
+SELECT name from student UNION name from temp;
+
+===============================================================
+# Cross Product or CROSS JOIN (optional: natural join, left join, right join)
+================================================================
+SELECT * FROM student, temp;
+or 
+SELECT student.Name, temp.Name FROM student CROSS JOIN temp;
+================================================================
+# show all the name of account whose loan number is greater than account number.
+==============================================================
+SELECT loan.loanid FROM loan, account WHERE loan.loannumber > account.accountnumber;
+note: removing dedandant values
+SELECT DISTINCT account.name FROM loan, account WHERE loan.loannumber > account.accountnumber;
+
+
+===================================================================
+#sub query
+==========================================================================
+
+
+
+
+
+
+
+
+
